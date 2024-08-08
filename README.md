@@ -5,7 +5,7 @@ This project was developed during my second year of a Computer Science degree wi
 
 Technologies Used:
 - Java
-- - JSP (JavaServer Pages)
+- JSP (JavaServer Pages)
 - JDBC (Java Database Connectivity)
 - JavaScript
 - CSS
