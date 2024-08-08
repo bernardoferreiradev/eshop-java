@@ -29,3 +29,4 @@ Once the username and password are validated, a session is established, allowing
 
 
 Note: While I aimed to create a functional and visually appealing frontend, the primary focus of this project was on developing the backend functionality.
+      The app was developed in portuguese.
