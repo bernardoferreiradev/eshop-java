@@ -1,0 +1,107 @@
+create database loja;
+
+use loja;
+
+create table cliente ( username varchar(50) PRIMARY KEY,
+		       password varchar(50),
+		       nome varchar(50),
+		       dataNasc date,
+		       telemovel int,
+		       morada varchar(50) );	
+
+create table avaliacao ( id int PRIMARY KEY,
+		       descricao varchar(50) );
+
+create table produto ( id int PRIMARY KEY,
+		       nome varchar(50),
+		       descricao varchar(50),
+		       preco float,
+		       url_imagem varchar(255) );
+
+create table tamanho ( id int PRIMARY KEY,
+		       tamanho varchar(10) );
+
+create table produto_tamanho ( id int PRIMARY KEY);
+
+create table fornecedor ( nome varchar(50) PRIMARY KEY,
+		          contacto int,
+			  ativo_inativo varchar(50) );
+
+
+create table compra ( id int PRIMARY KEY,
+		       total float);
+
+
+create table transacao ( id int PRIMARY KEY,
+		         data SMALLDATETIME);
+
+
+
+
+
+
+// FOREIGN KEYS
+
+ALTER TABLE avaliacao
+ADD COLUMN username_cliente VARCHAR(50);
+
+ALTER TABLE avaliacao
+ADD CONSTRAINT fk_avaliacao_cliente FOREIGN KEY (username_cliente) REFERENCES cliente(username);
+
+
+ALTER TABLE produto
+ADD COLUMN avaliacao_id INT;
+
+ALTER TABLE produto
+ADD CONSTRAINT fk_produto_avaliacao FOREIGN KEY (avaliacao_id) REFERENCES avaliacao(id);
+
+
+
+ALTER TABLE compra
+ADD COLUMN cliente_username varchar(50);
+
+ALTER TABLE compra
+ADD CONSTRAINT fk_compra_cliente FOREIGN KEY (cliente_username) REFERENCES cliente(username);
+
+
+ALTER TABLE produto
+ADD COLUMN fornecedor_nome varchar(50);
+
+ALTER TABLE produto
+ADD CONSTRAINT fk_produto_fornecedor FOREIGN KEY (fornecedor_nome) REFERENCES fornecedor(nome);
+
+
+ALTER TABLE produto_tamanho
+ADD COLUMN produto_id int;
+
+ALTER TABLE produto_tamanho
+ADD CONSTRAINT fk_produto_tamanho_produto FOREIGN KEY (produto_id) REFERENCES produto(id);
+
+
+
+ALTER TABLE produto_tamanho
+ADD COLUMN tamanho_id int;
+
+ALTER TABLE produto_tamanho
+ADD CONSTRAINT fk_produto_tamanho_tamanho FOREIGN KEY (tamanho_id) REFERENCES tamanho(id);
+
+
+
+//RELACAO DE MUITOS PARA MUITOS ENTRE COMPRA E PRODUTO_TAMNHO
+
+CREATE TABLE compra_produto_tamanho (
+    id_compra INT,
+    id_produto_tamanho INT,
+    quantidade INT,
+    preco FLOAT,
+    PRIMARY KEY (id_compra, id_produto_tamanho),
+    FOREIGN KEY (id_compra) REFERENCES compra(id),
+    FOREIGN KEY (id_produto_tamanho) REFERENCES produto_tamanho(id)
+);
+
+
+ALTER TABLE transacao
+ADD COLUMN compra_id INT,
+ADD CONSTRAINT fk_transacao_compra FOREIGN KEY (compra_id) REFERENCES compra(id);
+
+
